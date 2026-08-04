@@ -252,6 +252,8 @@
     85%{transform:rotate(-4deg);} 88%{transform:rotate(2deg);} 91%{transform:rotate(0deg);}
   }
   .start-first-btn{color:#3A3A3A; box-shadow:none; margin-top:2px;}
+  .select-credit{flex-shrink:0; text-align:center; font-size:10px; color:var(--sub); padding:6px 12px 2px; line-height:1.4;}
+  .select-credit a{color:var(--sub); text-decoration:underline;}
 
   .modal-overlay{position:fixed; inset:0; z-index:200; background:rgba(40,38,32,.4);
     display:flex; align-items:flex-end; justify-content:center;}
@@ -1101,6 +1103,10 @@ function renderSelectBoard() {
   row.appendChild(renderSelectCard("A"));
   row.appendChild(renderSelectCard("B"));
   board.appendChild(row);
+  const credit = document.createElement("div");
+  credit.className = "select-credit";
+  credit.innerHTML = "画像出典：ポケモン公式サイト「ポケモン図鑑」(<a href=\"https://zukan.pokemon.co.jp\" target=\"_blank\" rel=\"noopener noreferrer\">https://zukan.pokemon.co.jp</a>)";
+  board.appendChild(credit);
   return board;
 }
 
