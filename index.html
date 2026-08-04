@@ -319,6 +319,12 @@
   }
   .move-disable-badge.lastused{ background:#FF8A2B; }
   .move-disable-badge.bind{ background:#E5342A; }
+
+  .dice-mod-badges{position:absolute; top:2px; left:2px; z-index:5;
+    display:flex; flex-wrap:wrap; gap:3px; max-width:calc(100% - 4px); pointer-events:none;}
+  .dice-mod-badge{padding:2px 7px; border-radius:8px; font-size:9.5px; font-weight:800; color:#fff;
+    letter-spacing:.01em; white-space:nowrap; box-shadow:0 2px 5px rgba(0,0,0,.25);}
+  .dice-mod-badge.first-turn{ background:#FF8A2B; color:#fff; }
   .resolve-panel .move-card{ cursor:default; pointer-events:none; }
   .move-card:active {
 
@@ -397,7 +403,7 @@
   .dr-cost-row .cost-dot{width:23px; height:23px;}
   .dr-move-name{font-size:19px; padding-left:3px; margin-left:-3px;}
 
-  .dr-roll-line{flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  .dr-roll-line{position:relative; flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
     gap:6px; text-align:center;}
   .dr-flow-word{font-size:16px; font-weight:900; color:var(--ink); flex-shrink:0;}
   .dr-inline-icon{flex-shrink:0;}
@@ -737,6 +743,7 @@ function newPlayer(name) {
     incomingDamageMod: 0,
     incomingDamageNullify: null,
     diceMod: 0,
+    diceModBadges: [],
     bannedMoveIds: [],
     bannedMoveSourceName: "",
     committedBannedMoveIds: [],
@@ -1330,6 +1337,20 @@ function renderDiceOverlay() {
   const rollLine = document.createElement("div");
   rollLine.className = "dr-roll-line";
   let rollHtml = "";
+  const diceModBadges = [];
+  if (isFirstTurn) diceModBadges.push({
+    label: "先攻初回",
+    firstTurn: true
+  });
+  (p.diceModBadges || []).forEach(b => {
+    diceModBadges.push({
+      label: b.name,
+      color: typeBgColor(b.type)
+    });
+  });
+  if (diceModBadges.length > 0) {
+    rollHtml += `<div class="dice-mod-badges">${diceModBadges.map(b => `<div class="dice-mod-badge${b.firstTurn ? " first-turn" : ""}"${b.firstTurn ? "" : ` style="background:${b.color};"`}>${b.label}</div>`).join("")}</div>`;
+  }
   if (hasChara) {
     rollHtml += `<div class="dr-inline-icon big"><img src="image/ICON/キャラコロ.png" class="img-icon" alt="キャラコロ"></div>`;
     if (energyCount > 0) rollHtml += `<span class="dr-flow-word">と</span>`;
@@ -1434,6 +1455,7 @@ function resolveTurn(result) {
   mover.bannedMoveIds = [];
   mover.bannedMoveSourceName = "";
   mover.diceMod = 0;
+  mover.diceModBadges = [];
   mover.charaDiceBlocked = false;
   state.phase = "resolve";
   render();
@@ -1474,6 +1496,15 @@ function resolveTurn(result) {
   };
   runEffectQueue(queue, 0, ctx, () => {
     proceedToAnimateWithCtx(ctx);
+  });
+}
+
+function pushDiceModBadge(player, name, type) {
+  if (!player.diceModBadges) player.diceModBadges = [];
+  if (player.diceModBadges.some(b => b.name === name)) return;
+  player.diceModBadges.push({
+    name: name,
+    type: type
   });
 }
 
@@ -1545,17 +1576,20 @@ function runEffectQueue(queue, idx, ctx, done) {
 
    case "MOD_DICE_ENEMY":
     ctx.opp.diceMod = (ctx.opp.diceMod || 0) + eff.value;
+    pushDiceModBadge(ctx.opp, ctx.mv.name, ctx.mv.type);
     next();
     break;
 
    case "MOD_CHARADICE_ENEMY":
     ctx.opp.charaDiceBlocked = true;
+    pushDiceModBadge(ctx.opp, ctx.mv.name, ctx.mv.type);
     next();
     break;
 
    case "MOD_DICE-CHARADICE_ENEMY":
     ctx.opp.charaDiceBlocked = true;
     ctx.opp.diceMod = (ctx.opp.diceMod || 0) + eff.value;
+    pushDiceModBadge(ctx.opp, ctx.mv.name, ctx.mv.type);
     next();
     break;
 
@@ -1566,6 +1600,7 @@ function runEffectQueue(queue, idx, ctx, done) {
 
    case "MOD_DICE_SELF":
     ctx.mover.diceMod = (ctx.mover.diceMod || 0) + eff.value;
+    pushDiceModBadge(ctx.mover, ctx.mv.name, ctx.mv.type);
     next();
     break;
 
@@ -1602,7 +1637,9 @@ function runEffectQueue(queue, idx, ctx, done) {
 
    case "MOD_DICE_STEAL":
     ctx.opp.diceMod = (ctx.opp.diceMod || 0) - eff.value;
+    pushDiceModBadge(ctx.opp, ctx.mv.name, ctx.mv.type);
     ctx.mover.diceMod = (ctx.mover.diceMod || 0) + eff.value;
+    pushDiceModBadge(ctx.mover, ctx.mv.name, ctx.mv.type);
     next();
     break;
 
