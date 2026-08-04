@@ -93,12 +93,12 @@
   .pc-name-wrap{display:flex; align-items:center; gap:5px; min-width:0; flex:1 1 auto; overflow:hidden;}
   .pc-type-icon{width:18px; height:18px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
   .pc-name{font-size:20px; font-weight:800; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;
-    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;}  .pc-hp-num{font-size:23px; font-weight:800; color:#000; white-space:nowrap; flex-shrink:0;
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;
+    -webkit-text-stroke:3px #fff; paint-order:stroke fill;}
+  .pc-hp-num{font-size:23px; font-weight:800; color:#000; white-space:nowrap; flex-shrink:0;
     font-family:'851Gkktt','Hiragino Sans','Noto Sans JP',sans-serif;
-    text-shadow:
-      -1.5px 0 0 #fff, 1.5px 0 0 #fff, 0 -1.5px 0 #fff, 0 1.5px 0 #fff,
-      -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff;}
-  .pc-hp-num.low{color:#E3A500;}
+    -webkit-text-stroke:3px #fff; paint-order:stroke fill;}
+  .pc-hp-num.low{color:#E3A500; -webkit-text-stroke:3px #000;}
   .pc-hp-num.crit{color:#E4645E;}
 
   .pc-weak-hpbar{display:flex; align-items:stretch; height:16px; border-radius:6px; border:2px solid #000;
@@ -150,15 +150,11 @@
   .win-mon-big{flex:0 0 auto; width:36%; max-width:320px; margin-left:8%; display:flex; align-items:center; justify-content:center;}
   .win-mon-big img{width:100%; height:auto; object-fit:contain; filter:drop-shadow(0 16px 22px rgba(0,0,0,.35));}
   .win-text-col{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:26px;}
-  .win-title{font-size:36px; font-weight:900; line-height:1.15; color:#fff; white-space:nowrap;
-    text-shadow:
-      -3px 0 0 #000, 3px 0 0 #000, 0 -3px 0 #000, 0 3px 0 #000,
-      -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;}
+  .win-title{font-size:36px; font-weight:400; line-height:1.15; color:#fff; white-space:nowrap;
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;
+    -webkit-text-stroke:5px #000; paint-order:stroke fill; text-shadow:0 3px 4px rgba(0,0,0,.35);}
   .win-title .hl{display:block; font-size:1.9em; color:#FFE94A;
-    text-shadow:
-      -4px 0 0 #000, 4px 0 0 #000, 0 -4px 0 #000, 0 4px 0 #000,
-      -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000,
-      -7px 0 0 #000, 7px 0 0 #000, 0 -7px 0 #000, 0 7px 0 #000;}
+    -webkit-text-stroke:7px #000; paint-order:stroke fill; text-shadow:0 4px 6px rgba(0,0,0,.4);}
   .win-again-btn{border:2px solid #fff; border-radius:40px; padding:14px 34px; font-size:18px; font-weight:800;
     background:#000; color:#fff; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.35); transition:transform .1s;}
   .win-again-btn:active{transform:scale(.96);}
@@ -275,15 +271,15 @@
     box-shadow:0 6px 16px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.12);}
   .pick-card.selected{border-color:var(--accent-strong);}
   .pick-top{padding:10px 4px 5px; position:relative;}
-  .pick-type-icon{position:absolute; top:5px; left:5px; width:17px; height:17px; z-index:2;
+  .pick-type-icon{position:absolute; top:5px; left:5px; width:34px; height:34px; z-index:2;
     display:flex; align-items:center; justify-content:center;}
   .pick-card .ic{height:74px; margin: 0 auto; display:flex; align-items:center; justify-content:center;}
   .pick-bottom{background:#262420; padding:6px 4px 10px;}
   .nm-row{display:flex; align-items:baseline; justify-content:center; gap:3px; min-width:0;}
   .pick-card .nm{font-size:11.5px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif; min-width:0; flex-shrink:1;}
-  .nm-wk{font-size:8.5px; color:#C7C4BC; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:1px;}
-  .nm-wk .nm-wk-icon{width:10px; height:10px;}
+  .nm-wk{font-size:11.5px; color:#C7C4BC; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:1px;}
+  .nm-wk .nm-wk-icon{width:14px; height:14px;}
 
   .cost-row{display:flex; gap:4px; margin-top:2px;}
   .pick-count{text-align:center; font-size:12px; color:var(--sub); margin:4px 0 8px;}
@@ -1056,7 +1052,7 @@ function buildCharModal(sheet, m) {
   CHARACTERS.forEach(c => {
     const card = document.createElement("div");
     card.className = "pick-card";
-    card.innerHTML = `\n      <div class="pick-top" style="background:${typeBgColor(c.type)}">\n        <div class="pick-type-icon"><img src="image/ICON/${c.type}.png" class="img-icon" alt="${c.type}"></div>\n        <div class="ic"><img src="${c.imageUrl || `image/CHARA/${c.name}.png`}" class="img-icon" alt="${c.name}"></div>\n      </div>\n      <div class="pick-bottom">\n        <div class="nm-row">\n          <span class="nm">${c.name}</span>\n          <span class="nm-wk">(弱点：<img src="image/ICON/${c.weakness}.png" class="img-icon nm-wk-icon" alt="${c.weakness}">)</span>\n        </div>\n      </div>`;
+    card.innerHTML = `\n      <div class="pick-top" style="background:${typeBgColor(c.type)}">\n        <div class="pick-type-icon"><img src="image/ICON/${c.type}.png" class="img-icon" alt="${c.type}"></div>\n        <div class="ic"><img src="${c.imageUrl || `image/CHARA/${c.name}.png`}" class="img-icon" alt="${c.name}"></div>\n      </div>\n      <div class="pick-bottom">\n        <div class="nm-row">\n          <span class="nm">${c.name}</span>\n          <span class="nm-wk">(弱点:<img src="image/ICON/${c.weakness}.png" class="img-icon nm-wk-icon" alt="${c.weakness}">)</span>\n        </div>\n      </div>`;
     card.onclick = () => openMoveSelect(m.playerKey, c);
     grid.appendChild(card);
   });
