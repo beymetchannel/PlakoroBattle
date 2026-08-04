@@ -150,7 +150,7 @@
   .win-again-btn:active{transform:scale(.96);}
 
   .turn-cutin{position:absolute; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center;
-    justify-content:center; gap:8px; pointer-events:none; overflow:hidden;}
+    justify-content:center; gap:8px; pointer-events:none;}
 
   .turn-cutin.cutin-a{ --tc-glow:var(--tc-glow-a); }
   .turn-cutin.cutin-b{ --tc-glow:var(--tc-glow-b); }
@@ -200,6 +200,8 @@
         drop-shadow(0 0 6px rgba(var(--tc-glow),.75))
         drop-shadow(0 0 14px rgba(var(--tc-glow),.65))
         drop-shadow(0 0 24px rgba(var(--tc-glow),.55));
+    will-change:filter;
+    transform:translateZ(0);
   }
   .turn-cutin-line2 .tc-flow{
     font-size:1em;
