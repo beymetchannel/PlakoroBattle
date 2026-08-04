@@ -271,18 +271,26 @@
   .grid-2{display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;}
 
   .pick-card{border:2px solid transparent; border-radius:14px; overflow:hidden;
-    text-align:center; box-shadow:var(--shadow); cursor:pointer; display:flex; flex-direction:column; min-width:0;}
+    text-align:center; cursor:pointer; display:flex; flex-direction:column; min-width:0;
+    box-shadow:0 6px 16px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.12);}
   .pick-card.selected{border-color:var(--accent-strong);}
-  .pick-top{padding:10px 4px 5px;}
+  .pick-top{padding:10px 4px 5px; position:relative;}
+  .pick-type-icon{position:absolute; top:5px; left:5px; width:17px; height:17px; z-index:2;
+    display:flex; align-items:center; justify-content:center;}
   .pick-card .ic{height:74px; margin: 0 auto; display:flex; align-items:center; justify-content:center;}
   .pick-bottom{background:#262420; padding:6px 4px 10px;}
-  .pick-card .nm{font-size:11.5px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .pick-card .wk{font-size:10.5px; color:#C7C4BC; margin-top:4px;}
+  .nm-row{display:flex; align-items:baseline; justify-content:center; gap:3px; min-width:0;}
+  .pick-card .nm{font-size:11.5px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif; min-width:0; flex-shrink:1;}
+  .nm-wk{font-size:8.5px; color:#C7C4BC; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:1px;}
+  .nm-wk .nm-wk-icon{width:10px; height:10px;}
 
   .cost-row{display:flex; gap:4px; margin-top:2px;}
   .pick-count{text-align:center; font-size:12px; color:var(--sub); margin:4px 0 8px;}
   .move-pick-list{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-  .move-pick-list .move-card{margin-bottom:0; min-height:172px;}
+  .move-pick-list .move-card{margin-bottom:0; min-height:172px; overflow:visible;}
+  .move-pick-list .mc-top{border-radius:12px 12px 0 0; overflow:hidden;}
+  .move-pick-list .mc-bottom{border-radius:0 0 12px 12px; overflow:hidden;}
   .move-pick-list .mc-effect{white-space:normal; overflow:visible; text-overflow:clip;}
   .move-pick-list .mc-chara-row .txt{white-space:normal; overflow:visible; text-overflow:clip;}
 
@@ -290,6 +298,7 @@
     background:var(--card); border-radius:22px 22px 0 0; box-shadow:0 -8px 24px rgba(0,0,0,.1);
     padding:8px 10px 10px; display:flex; flex-direction:column;}
   .ms-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; min-height:0;}
+  .move-select-panel .move-card{border-color:#fff; border-width:2px;}
 
   .move-card {
     display: flex; flex-direction: column; border-radius: 12px; overflow: hidden;
@@ -399,8 +408,9 @@
 
   .dr-result-cols{flex:1; display:flex; gap:8px; min-height:0;}
   .dr-success-col{flex:3; display:flex; flex-direction:column; border-radius:14px; overflow:hidden;
-    background:var(--danger); min-height:0;}
-  .dr-col-header{padding:8px 10px; font-size:13.5px; font-weight:900; color:#fff; text-align:center; flex-shrink:0;}
+    min-height:0;}
+  .dr-col-header{padding:8px 10px; font-size:13.5px; font-weight:900; color:#fff; text-align:center; flex-shrink:0;
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;}
   .dr-header-success .hl{color:#FFE94A;}
   .dr-btn-list{flex:1; display:grid; grid-template-rows:repeat(4,1fr); gap:5px; padding:0 8px 8px; min-height:0;}
   .dr-chara-btn{width:100%; border:none; border-radius:10px; padding:8px 10px; background:#111;
@@ -412,8 +422,10 @@
   .dr-chara-btn-icons .oi{width:25px; height:25px;}
   .dr-chara-btn-text{line-height:1.25;}
   .dr-success-only-btn{width:100%; border:none; border-radius:10px; padding:8px 10px;
-    display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13.5px; font-weight:800;
-    color:#1a1a1a; flex:1; min-height:0; box-shadow:0 3px 8px rgba(0,0,0,.16);}
+    display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; font-size:13.5px; font-weight:800;
+    color:#1a1a1a; flex:1; min-height:0; box-shadow:0 3px 8px rgba(0,0,0,.16); background:#fff;}
+  .dr-success-only-left{display:flex; align-items:center; gap:8px; min-width:0;}
+  .dr-success-only-dmg{flex-shrink:0; font-size:26px;}
   .dr-type-icon{width:27px; height:27px; flex-shrink:0;}
 
   .dr-right-col{flex:1.3; display:flex; flex-direction:column; gap:8px; min-height:0;}
@@ -421,14 +433,16 @@
     background:#D8D6CE; min-height:0;}
   .dr-header-fail{color:#5C5A50;}
   .dr-fail-btn{flex:1; margin:0 10px 10px; border:none; border-radius:10px; background:#3E6E86;
-    color:#fff; font-size:16px; font-weight:900; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.2);}
+    color:#fff; font-size:17.5px; font-weight:900; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.2);
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;}
 
   .dr-back-box{flex:2; display:flex; flex-direction:column; border-radius:14px; overflow:hidden;
     background:#E9E7E0; min-height:0;}
   .dr-back-btn{flex:1; margin:10px; border:none; border-radius:10px; background:#FFFFFF; color:#5C5A50;
-    font-size:13px; font-weight:800; line-height:1.35; cursor:pointer;
+    font-size:15.5px; font-weight:800; line-height:1.35; cursor:pointer;
     display:flex; align-items:center; justify-content:center; text-align:center;
-    box-shadow:0 3px 8px rgba(0,0,0,.12);}
+    box-shadow:0 3px 8px rgba(0,0,0,.12);
+    font-family:'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif;}
 
   .fx-flash{position:absolute; border-radius:50%; pointer-events:none; z-index:60;
     animation:fxpop .7s ease-out forwards; mix-blend-mode:multiply;}
@@ -1035,7 +1049,7 @@ function buildCharModal(sheet, m) {
   CHARACTERS.forEach(c => {
     const card = document.createElement("div");
     card.className = "pick-card";
-    card.innerHTML = `\n      <div class="pick-top" style="background:${typeBgColor(c.type)}">\n        <div class="ic"><img src="${c.imageUrl || `image/CHARA/${c.name}.png`}" class="img-icon" alt="${c.name}"></div>\n      </div>\n      <div class="pick-bottom">\n        <div class="nm">${c.name}</div>\n        <div class="wk" style="display:flex; align-items:center; justify-content:center; gap:3px; margin-top:4px;">\n          <div style="width:13px; height:13px; display:flex; align-items:center; flex-shrink:0;"><img src="image/ICON/${c.type}.png" class="img-icon" alt="${c.type}"></div>\n          <span style="font-size:9px; color:rgba(255,255,255,.4);">/</span>\n          <div style="width:13px; height:13px; display:flex; align-items:center; flex-shrink:0;"><img src="image/ICON/${c.weakness}.png" class="img-icon" alt="${c.weakness}"></div>\n        </div>\n      </div>`;
+    card.innerHTML = `\n      <div class="pick-top" style="background:${typeBgColor(c.type)}">\n        <div class="pick-type-icon"><img src="image/ICON/${c.type}.png" class="img-icon" alt="${c.type}"></div>\n        <div class="ic"><img src="${c.imageUrl || `image/CHARA/${c.name}.png`}" class="img-icon" alt="${c.name}"></div>\n      </div>\n      <div class="pick-bottom">\n        <div class="nm-row">\n          <span class="nm">${c.name}</span>\n          <span class="nm-wk">(弱点：<img src="image/ICON/${c.weakness}.png" class="img-icon nm-wk-icon" alt="${c.weakness}">)</span>\n        </div>\n      </div>`;
     card.onclick = () => openMoveSelect(m.playerKey, c);
     grid.appendChild(card);
   });
@@ -1047,10 +1061,6 @@ function buildMoveModal(sheet, m) {
   title.className = "modal-title";
   title.textContent = `${m.tempChar.name} のワザを4つ選択`;
   sheet.appendChild(title);
-  const count = document.createElement("div");
-  count.className = "pick-count";
-  count.textContent = `${m.tempMoves.length} / 4 選択中`;
-  sheet.appendChild(count);
   const list = document.createElement("div");
   list.className = "move-pick-list";
   const hist = loadMoveHistory();
@@ -1096,6 +1106,9 @@ function buildMoveModal(sheet, m) {
   btn.style.color = "#2A2A2A";
   btn.style.boxShadow = "0 3px 10px rgba(174,255,62,.4)";
   btn.style.padding = "24px 20px";
+  btn.style.marginTop = "10px";
+  btn.style.fontSize = "18px";
+  btn.style.fontFamily = "'CorporateLogoBold','Hiragino Sans','Noto Sans JP',sans-serif";
   btn.onclick = () => {
     if (m.tempMoves.length !== 4) return;
     const p = state.players[m.playerKey];
@@ -1154,7 +1167,7 @@ function renderSelectCard(key) {
     const btn = document.createElement("button");
     btn.className = "btn wide start-first-btn";
     btn.style.background = isA ? "var(--trainerA-btn)" : "var(--trainerB-btn)";
-    btn.textContent = "先行で開始";
+    btn.textContent = "先攻で開始";
     btn.onclick = () => {
       state.firstPlayer = key;
       state.turnPlayer = key;
@@ -1337,6 +1350,7 @@ function renderDiceOverlay() {
   resultCols.className = "dr-result-cols";
   const successCol = document.createElement("div");
   successCol.className = "dr-success-col";
+  successCol.style.background = typeBgColor(mv.type);
   const successHeader = document.createElement("div");
   successHeader.className = "dr-col-header dr-header-success";
   successHeader.innerHTML = `ワザ成功 <span class="arrow">▶</span> <span class="hl">キャラコロチェック</span>`;
@@ -1345,8 +1359,8 @@ function renderDiceOverlay() {
   btnList.className = "dr-btn-list";
   const successOnlyBtn = document.createElement("button");
   successOnlyBtn.className = "dr-success-only-btn";
-  successOnlyBtn.style.background = typeBgColor(mv.type);
-  successOnlyBtn.innerHTML = `\n    <div class="dr-type-icon"><img src="image/ICON/${mv.type}.png" class="img-icon" alt="${mv.type}"></div>\n    <div class="dr-chara-btn-text">ワザのみ（キャラコロ効果なし）</div>`;
+  const successDmgClass = dmgInfo.mode === "weak" ? "weak" : dmgInfo.mode === "up" ? "up" : dmgInfo.mode === "down" ? "down" : "";
+  successOnlyBtn.innerHTML = `\n    <div class="dr-success-only-left">\n      <div class="dr-type-icon"><img src="image/ICON/${mv.type}.png" class="img-icon" alt="${mv.type}"></div>\n      <div class="dr-chara-btn-text">ワザのみ（キャラコロ効果なし）</div>\n    </div>\n    <div class="mc-dmg dr-success-only-dmg ${successDmgClass}">${dmgInfo.display}</div>`;
   successOnlyBtn.onclick = () => resolveTurn({
     kind: "success",
     dmgInfo: dmgInfo
@@ -1390,7 +1404,7 @@ function renderDiceOverlay() {
   backBox.className = "dr-back-box";
   const backBtn = document.createElement("button");
   backBtn.className = "dr-back-btn";
-  backBtn.innerHTML = "ワザ選択に<br>戻る";
+  backBtn.textContent = "戻る";
   if (state.repeatActive) {
     backBtn.disabled = true;
     backBtn.style.opacity = ".35";
