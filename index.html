@@ -1140,7 +1140,7 @@ function renderSelectCard(key) {
     const btn = document.createElement("button");
     btn.className = "btn wide start-first-btn";
     btn.style.background = isA ? "var(--trainerA-btn)" : "var(--trainerB-btn)";
-    btn.textContent = "先行で開始";
+    btn.textContent = "先攻で開始";
     btn.onclick = () => {
       state.firstPlayer = key;
       state.turnPlayer = key;
